@@ -1,0 +1,528 @@
+format compact
+%Ayush Kadakia
+%5319
+%Section C3
+%Math 250 MATLAB Lab Assignment #3
+rand('seed', 5319)
+%Question 1(a)
+A = rand(3), A(1,1), det(A(1:2,1:2)), det(A)
+A =
+    0.1626    0.5483    0.8350
+    0.3131    0.6963    0.3324
+    0.7530    0.4220    0.0562
+ans =
+    0.1626
+ans =
+   -0.0584
+ans =
+   -0.2163
+U=A
+U =
+    0.1626    0.5483    0.8350
+    0.3131    0.6963    0.3324
+    0.7530    0.4220    0.0562
+col1
+L1 =
+    1.0000         0         0
+   -1.9250    1.0000         0
+   -4.6301         0    1.0000
+U=L1*U
+U =
+    0.1626    0.5483    0.8350
+         0   -0.3592   -1.2750
+         0   -2.1165   -3.8101
+%The row operations that change the old value of U into the new value of U are that Row 2 of L1 is the same as L1 row 2 - entry U(2,1)/entry U(1,1) multiplied by the first row U(1,:) of the U matrix. Basically, what this does is make L1(2,1) 0. This is then repeated for row 3, so that 3,1 will also be 0. By doing both of these operations, the first column becomes 0 underneath the diagonal.
+%Question 1(b)
+col2
+L2 =
+    1.0000         0         0
+         0    1.0000         0
+         0   -5.8931    1.0000
+U=L2*U
+U =
+    0.1626    0.5483    0.8350
+         0   -0.3592   -1.2750
+         0         0    3.7039
+%The row operations that change the old value of U into the new value of U are that Row 3 of L1 is the same as L1 row 3 - entry U(3,2)/entry U(2,2) multiplied by the second row U(2,:) of the U matrix. Basically, what this does, is make the L(3,2) entry 0.
+U=L2*L1*A
+U =
+    0.1626    0.5483    0.8350
+         0   -0.3592   -1.2750
+   -0.0000   -0.0000    3.7039
+%Question 1(c)
+inv(L1), inv(L2), L = inv(L1)*inv(L2)
+ans =
+    1.0000         0         0
+    1.9250    1.0000   -0.0000
+    4.6301         0    1.0000
+ans =
+    1.0000         0         0
+         0    1.0000   -0.0000
+         0    5.8931    1.0000
+L =
+    1.0000         0         0
+    1.9250    1.0000   -0.0000
+    4.6301    5.8931    1.0000
+A=L*U
+A =
+    0.1626    0.5483    0.8350
+    0.3131    0.6963    0.3324
+    0.7530    0.4220    0.0562
+%Question 2(a)
+%The formula for inv(L) would be L2*L1
+inv(L), inv(U)
+ans =
+    1.0000   -0.0000    0.0000
+   -1.9250    1.0000    0.0000
+    6.7143   -5.8931    1.0000
+ans =
+    6.1489    9.3867    1.8451
+   -0.0000   -2.7843   -0.9585
+    0.0000   -0.0000    0.2700
+%Question 2(b)
+b = rvect(3)
+b =
+     8
+     0
+     1
+c = inv(L)*b
+c =
+    8.0000
+  -15.4004
+   54.7144
+x = inv(U)*c
+x =
+    5.5853
+   -9.5640
+   14.7723
+A*x
+ans =
+    8.0000
+   -0.0000
+    1.0000
+%Question 3(a)
+A = rand(500) ; b = rand(500,1); [L U] = lu(A);
+tic; R = rref([A b]); y = R(:,501); toc
+Elapsed time is 1.441985 seconds.
+rreftime = 1.441985
+
+rreftime =
+
+    1.4420
+
+%Question 3(b)
+tic; c = inv(L)*b; x = inv(U)*c; toc
+Elapsed time is 0.013421 seconds.
+lutime = 0.013421
+
+lutime =
+
+    0.0134
+
+norm(x-y)
+
+ans =
+
+   5.1940e-12
+
+%Question 3(c)
+%(i) The theoretical ratio is (2cn^3/3)/(2cn^2) which simplifies to n/3
+%Thereforever the ratio when n=300 is 500/3
+%(ii)
+rreftime/lutime
+
+ans =
+
+  107.4424
+
+%The observed ratio is 107.4424
+%Question 4(a)
+a = rmat(4,4)
+
+a =
+
+     1     0     9     1
+     3     5     2     4
+     5     2     2     4
+     3     4     5     5
+
+c = cofactor(a)
+
+c =
+
+  -30.0000  -20.0000  -27.0000   61.0000
+  -56.0000 -108.0000   -8.0000  128.0000
+  -64.0000   28.0000    6.0000   10.0000
+  102.0000   68.0000    7.0000 -165.0000
+
+a(1,1)*c(1,1) + a(1,2)*c(1,2) + a(1,3)*c(1,3) + a(1,4)*c(1,4)
+
+ans =
+
+  -212
+
+a(2,1)*c(2,1) + a(2,2)*c(2,2) + a(2,3)*c(2,3) + a(2,4)*c(2,4)
+
+ans =
+
+ -212.0000
+
+a(1,3)*c(1,3) + a(2,3)*c(2,3) + a(3,3)*c(3,3) + a(4,3)*c(4,3)
+
+ans =
+
+  -212
+
+a(1,4)*c(1,4) + a(2,4)*c(2,4) + a(3,4)*c(3,4) + a(4,4)*c(4,4)
+
+ans =
+
+  -212
+
+%Theorem 3.1 defines the cofactor expansion along any row i as the determinant of the matrix. The first two sums are the cofactor expansion for the first two rows of the matrix. Since the determinant is existent, that means there is only 1 value for the determinant, so therefore the cofactor expansion of the first and second row must be the same. The next 2 sums are cofactor expansion using the column method.
+%Theorem 3.4 tells us that the determinant of the transpose of a matrix is equal to the determinant of the original matrix. This means that the last two sums has to be the same as the ones we previously got which it is. This shows that cofactor expansion can be done using both rows and columns. This is because by the definition of the transpose, the columns are equal to the rows of its transpose.
+det(a)
+
+ans =
+
+  -212
+
+%Question 4(b)
+A = rmat(5,5), U = triu(A)
+
+A =
+
+     8     3     9     4     0
+     6     9     8     2     7
+     4     5     3     2     9
+     0     2     1     0     8
+     5     5     7     0     1
+
+
+U =
+
+     8     3     9     4     0
+     0     9     8     2     7
+     0     0     3     2     9
+     0     0     0     0     8
+     0     0     0     0     1
+
+A(1,1)*A(2,2)*A(3,3)*A(4,4)*A(5,5) 
+
+ans =
+
+     0
+
+U(1,1)*U(2,2)*U(3,3)*U(4,4)*U(5,5)
+
+ans =
+
+     0
+
+%No you cannot obtain det(A) from this calculation
+%Yes you can obtain det(U) from this calculation because it is an upper triangle matrix, and the determinant of an upper and lower triangular matrix can be found by multiplying the diagonal entries
+det(A)
+
+ans =
+
+       -1592
+
+det(U)
+
+ans =
+
+     0
+
+%Question 4(c)
+A = rmat(5,5)
+
+A =
+
+     8     3     9     3     8
+     4     4     4     7     6
+     3     9     4     5     0
+     9     2     8     0     6
+     3     8     7     5     7
+
+B = A; B(2,:) = A(1,:); B(1,:) = A(2,:)
+
+B =
+
+     4     4     4     7     6
+     8     3     9     3     8
+     3     9     4     5     0
+     9     2     8     0     6
+     3     8     7     5     7
+
+%(i) Using the propeties of the determinant function, det(B) = -det(A) due to a row swap
+det(A), det(B)
+
+ans =
+
+  -2.7410e+03
+
+
+ans =
+
+   2.7410e+03
+
+C = A; C(2,:) = A(2,:) + 10*A(1,:)
+
+C =
+
+     8     3     9     3     8
+    84    34    94    37    86
+     3     9     4     5     0
+     9     2     8     0     6
+     3     8     7     5     7
+
+%(ii)Using the properties of determinant function, det(C) = det(A) due to a row being replaced by itself plus a multiple of another row
+det(A), det(C)
+
+ans =
+
+  -2.7410e+03
+
+
+ans =
+
+  -2.7410e+03
+
+D = A; D(1,:) = 10*A(1,:)
+
+D =
+
+    80    30    90    30    80
+     4     4     4     7     6
+     3     9     4     5     0
+     9     2     8     0     6
+     3     8     7     5     7
+
+%(iii)Using the properties of determinant function, det(A) = 1/10 * det(D) or det(D)=10*det(A)
+%det(10*A) would be 100000*det(A) because each row would have to be multiplied by the constant, so it is 10^5 = 100000
+det(A), det(10*A)
+
+ans =
+
+  -2.7410e+03
+
+
+ans =
+
+  -274100000
+
+%Question 4(d)
+A = rmat(5,5)
+
+A =
+
+     0     9     6     7     5
+     7     2     6     7     8
+     0     3     2     8     9
+     9     7     6     0     3
+     5     9     1     6     6
+
+A(1,1)=0; A(2,1) = 0
+
+A =
+
+     0     9     6     7     5
+     0     2     6     7     8
+     0     3     2     8     9
+     9     7     6     0     3
+     5     9     1     6     6
+
+[P, L, U, sign] = splu(A)
+
+P =
+
+     0     0     0     1     0
+     0     1     0     0     0
+     0     0     1     0     0
+     1     0     0     0     0
+     0     0     0     0     1
+
+
+L =
+
+    1.0000         0         0         0         0
+         0    1.0000         0         0         0
+         0    1.5000    1.0000         0         0
+         0    4.5000    3.0000    1.0000         0
+    0.5556    2.5556    2.5238    0.3282    1.0000
+
+
+U =
+
+    9.0000    7.0000    6.0000         0    3.0000
+         0    2.0000    6.0000    7.0000    8.0000
+         0         0   -7.0000   -2.5000   -3.0000
+         0         0         0  -17.0000  -22.0000
+         0         0         0         0   -1.3193
+
+
+sign =
+
+    -1
+
+P*A, L*U
+
+ans =
+
+     9     7     6     0     3
+     0     2     6     7     8
+     0     3     2     8     9
+     0     9     6     7     5
+     5     9     1     6     6
+
+
+ans =
+
+    9.0000    7.0000    6.0000         0    3.0000
+         0    2.0000    6.0000    7.0000    8.0000
+         0    3.0000    2.0000    8.0000    9.0000
+         0    9.0000    6.0000    7.0000    5.0000
+    5.0000    9.0000    1.0000    6.0000    6.0000
+
+%(i) The determinant of P is -1 because it represents an identity matrix with row interchanges. Since it is an odd number of row exchanges, it means det(P) is -1.
+det(P)
+
+ans =
+
+    -1
+%(ii) The determinant of L is 1 because it is a lower triangular matrix. Due to properties of cofactor expansion, the determinant of a triangular matrix can be found by multiplying the diagonal entries which in this case are all 1. Therefore, det(L) is 1.
+det(L)
+
+ans =
+
+    1.0000
+
+%(iii) The relationship between det(A) and det(U) is that they were opposites. This means that det(A) = - det(U). This is because matrix U was obtained by a row exchange, so by the properties of determinants it leads to the conclusion mentioned before.
+det(A), det(U)
+
+ans =
+
+   2.8260e+03
+
+
+ans =
+
+  -2.8260e+03
+
+%Question 5
+H = house; plot2d(H), hold on
+%Question 5(a)
+t = pi/6; Q = [cos(t), -sin(t); sin(t), cos(t)]
+
+Q =
+
+    0.8660   -0.5000
+    0.5000    0.8660
+
+plot2d(Q*H)
+%i) The house rotated counter-clockwise 30 degrees
+%ii)
+det(Q)
+
+ans =
+
+     1
+
+%It tells us that the area that is inside the transformed matrix is equivalent to the area of matrix H because matrix Q is a rotational matrix that has a determinant = 1
+t = -pi/3
+
+t =
+
+   -1.0472
+
+ Q = [cos(t), -sin(t); sin(t), cos(t)]
+
+Q =
+
+    0.5000    0.8660
+   -0.8660    0.5000
+
+ plot2d(Q*H)
+%i) The house rotated clockwise 60 degrees
+%ii)
+det(Q)
+
+ans =
+
+     1
+
+%It tells us that the area of the transformed house is the same as the original house
+%Question 5(b)
+H = house; plot2d(H), hold on
+r = .9; D = [r, 0; 0, 1/r ]
+
+D =
+
+    0.9000         0
+         0    1.1111
+
+plot2d(D*H)
+%i) The house is thinner
+%ii)
+det(D)
+
+ans =
+
+     1
+
+%Since the det(D) is 1, the area of the transformed house is the same exact area as the original house and the previous transformed ones
+plot2d(D*H)
+r = .8; D = [r, 0; 0, 1/r ]
+
+D =
+
+    0.8000         0
+         0    1.2500
+
+plot2d(D*H)
+%i) The house is even more thinner
+%ii)
+det(D)
+
+ans =
+
+     1
+
+%Since the det(D) is 1, the area of the new house is still the same as all the old ones
+%Question 5(c)
+H = house; plot2d(H), hold on
+t = 1/2; T = [1, t; 0, 1]
+
+T =
+
+    1.0000    0.5000
+         0    1.0000
+
+plot2d(T*H)
+%i) The vertices of the bottom of the house were shifted to the left and the top were shifted to the right
+%ii)
+det(T)
+
+ans =
+
+     1
+
+%The area of the transformed house is the same since the det(T) is 1 for the same reasons as above
+t = -1/2; T = [1, t; 0, 1]
+
+T =
+
+    1.0000   -0.5000
+         0    1.0000
+
+plot2d(T*H)
+%i) The vertices of the bottom of the house were shifted to the right and the top were shifted to the left
+%ii)
+det(T)
+
+ans =
+
+     1
+
+%For the same reasons as above, the area of the transformed house is the same due to det(T) = 1
+diary off

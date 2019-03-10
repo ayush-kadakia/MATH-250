@@ -1,0 +1,406 @@
+% Ayush Kadakia
+% 5319
+% Section C3
+%Math 250 MATLAB Lab Assignment #2
+format compact
+Format short
+rand('seed' , 5319)
+% Question 1 (a)
+A = rmat(3, 5), rank(A(:,1:3))
+A =
+     1     5     8     8     8
+     3     6     3     0     1
+     7     4     0     1     6
+ans =
+     3
+b = rvect(3), R = rref([A b])
+b =
+     1
+     4
+     8
+R =
+    1.0000         0         0    0.8776    1.7823    1.0068
+         0    1.0000         0   -1.2857   -1.6190    0.2381
+         0         0    1.0000    1.6939    1.7891   -0.1497
+S = R(:,1:5)
+S =
+    1.0000         0         0    0.8776    1.7823
+         0    1.0000         0   -1.2857   -1.6190
+         0         0    1.0000    1.6939    1.7891
+% i) The first 3 are the pivot columns
+% ii) The rank of R and A are both 3
+% iii) 2 (5 col - rank(A)) is the nullity. The free variables are x4 and x5
+% iv) Ax=b has a solution because it is consistent since there are no 0 rows for which a non zero b would make it inconsistent
+% Question 1 (b)
+c = R(:,6)
+c =
+    1.0068
+    0.2381
+   -0.1497
+x = [c; 0; 0]
+x =
+    1.0068
+    0.2381
+   -0.1497
+         0
+         0
+% i)
+A*x-b
+ans =
+     0
+     0
+     0
+S*x-c
+ans =
+     0
+     0
+     0
+%% ii)The equations in (i) are true because ax=b. X was found using Rref(A) and X4 and X5 were free variables which were set to 0. This ended up equaling C therefore Ax-b is equal to b-b which is 0. Due to column correspondence, this also applies in S, so then Sx-C is also 0. It can then be concluded that Sx - c = c - c = 0.
+% Question 1 (c)
+u = [-S(:,4); 1; 0], v = [-S(:,5);0;1]
+u =
+   -0.8776
+    1.2857
+   -1.6939
+    1.0000
+         0
+v =
+   -1.7823
+    1.6190
+   -1.7891
+         0
+    1.0000
+% i) Vectors U and V are the vectors in the homogeneous solutions and applying matrix A onto either of the vectors will result in the 0 vector. Any linear combination of the u and v vector when it is transformed by the A matrix will result in the 0 matrix. This is due to free variables being present in the original A matrix.
+S*u, A*u, S*v, A*v
+ans =
+     0
+     0
+     0
+ans =
+   1.0e-15 *
+         0
+    0.6661
+    0.8882
+ans =
+     0
+     0
+     0
+ans =
+     0
+     0
+     0
+s = rand(1), t = rand(1), y = s*u + t*v
+s =
+    0.8994
+t =
+    0.1382
+y =
+   -1.0355
+    1.3801
+   -1.7707
+    0.8994
+    0.1382
+% (ii) Since we know Au and Av = 0, any scalar multiplied by 0 will be 0, therefore it will always work
+A*y
+ans =
+   1.0e-14 *
+    0.0222
+    0.0916
+    0.1277
+% Question 1 (d)
+z = x+y
+z =
+   -0.0287
+    1.6182
+   -1.9203
+    0.8994
+    0.1382
+% Az = Ax + Ay because of theorem 1.3a and since Ax = b and Ay = 0, b+0 = b and we are sure that Az = b
+A*z-b
+ans =
+   1.0e-14 *
+    0.0222
+    0.0888
+    0.1776
+% Question 2
+u1 = rvect(3), u2 = rvect(3), u3 = rvect(3), u4 = rvect(3)
+u1 =
+     2
+     7
+     6
+u2 =
+     0
+     1
+     4
+u3 =
+     9
+     9
+     1
+u4 =
+     3
+     4
+     6
+% Question 2(a)
+A = [u1 u2 u3], rref(A)
+A =
+     2     0     9
+     7     1     9
+     6     4     1
+ans =
+     1     0     0
+     0     1     0
+     0     0     1
+%i) There are 0 free variables
+%ii) The set S is linearly independent because the nullity is 0 and there are 3 pivot columns and 3 columns
+% Question 2 (b)
+B = [u1 u2 u3 u4], rref(B)
+B =
+     2     0     9     3
+     7     1     9     4
+     6     4     1     6
+ans =
+    1.0000         0         0   -0.1172
+         0    1.0000         0    1.5859
+         0         0    1.0000    0.3594
+%i) The equation Bx=0 has 1 free variable
+%ii) The set T is linearly dependent because there are 4 columns and 3 pivot columns, therefore there is a free variable, so there is a non zero solution for Bx=0
+% Question 2 (c)
+v = rand(1)*u1 + rand(1)*u2
+v =
+    0.1003
+    0.5671
+    1.1645
+%i) The set U is linearly dependent because v is a linear combination of u1 and u2.
+D = [u1 u2 v]
+
+D =
+
+    2.0000         0    0.1003
+    7.0000    1.0000    0.5671
+    6.0000    4.0000    1.1645
+
+rref(D)
+
+ans =
+
+    1.0000         0    0.0502
+         0    1.0000    0.2159
+         0         0         0
+
+% Question 3
+A = rmat(2,3), B = rmat(3, 4), C = rmat(4,3), v = rvect(4)
+
+A =
+
+     8     1     6
+     9     9     0
+
+
+B =
+
+     2     9     9     1
+     5     1     4     4
+     9     9     8     9
+
+
+C =
+
+     7     8     7
+     9     9     3
+     6     6     6
+     0     7     1
+
+
+v =
+
+     7
+     0
+     2
+     0
+
+% Question 3 (a)
+u = B*v, A*u, D = A*B, D*v
+
+u =
+
+    32
+    43
+    79
+
+
+ans =
+
+   773
+   675
+
+
+D =
+
+    75   127   124    66
+    63    90   117    45
+
+
+ans =
+
+   773
+   675
+
+A*(B*C)
+
+ans =
+
+        2412        2949        1716
+        1953        2331        1458
+
+(A*B)*C
+
+ans =
+
+        2412        2949        1716
+        1953        2331        1458
+
+% Question 3(b)
+A = [0 1; 0 0], B = [0 0; 1 0], C = [0 1; 1 0]
+
+A =
+
+     0     1
+     0     0
+
+
+B =
+
+     0     0
+     1     0
+
+
+C =
+
+     0     1
+     1     0
+
+%(i) AB is not equal to BA as shown below
+A*B, B*A
+
+ans =
+
+     1     0
+     0     0
+
+
+ans =
+
+     0     0
+     0     1
+
+% (A+B)^2 is not equal to A^2 + 2AB + B^2 as shown below
+(A+B)^2, A^2 + 2*A*B + B^2
+
+ans =
+
+     1     0
+     0     1
+
+
+ans =
+
+     2     0
+     0     0
+
+%ii)
+A*A
+
+ans =
+
+     0     0
+     0     0
+
+%If A were a number, it would tell the value of A multiplied by A. This conclusion is not valid for matrices.
+%iii)
+A * C
+
+ans =
+
+     1     0
+     0     0
+
+A * B
+
+ans =
+
+     1     0
+     0     0
+
+% If A,B,C were numbers with A not equal to 0, I would conclude that if A*C = A*B, then B = C.
+% An example would be if A = 2, B = 3, and C = 3, then A*B = 6 and A*C = 6, so therefore 6/A will give the value for both B and C.
+% This conclusion is not valid for matrices.
+% Question 4
+A = [0,0,0,1,0,1;1,0,1,1,0,0;0,1,0,1,0,0;1,0,1,0,0,0;1,1,1,0,0,1;0,0,1,1,0,0]
+
+A =
+
+     0     0     0     1     0     1
+     1     0     1     1     0     0
+     0     1     0     1     0     0
+     1     0     1     0     0     0
+     1     1     1     0     0     1
+     0     0     1     1     0     0
+
+% ii) By using the graph, it can easily be seen who cannot receive messages from someone else. By using the matrix, each column refers to the person and zeros in the column represent that messages cannot be received from that row, which signifies the person.
+% Using these rules, the following conclusions can be drawn.
+% Person 1 cannot receive from Person 3 and 6.
+% Person 2 cannot receive from Person 1 and 4.
+% Person 3 cannot receive from Person 1.
+% Person 4 cannot receive from Person 5.
+% Person 5 cannot receive from any Person.
+% Person 6 cannot receive from Person 2, 3, and 4.
+% These conclusions are all for one step only.
+% iii)
+A^2
+
+ans =
+
+     1     0     2     1     0     0
+     1     1     1     2     0     1
+     2     0     2     1     0     0
+     0     1     0     2     0     1
+     1     1     2     4     0     1
+     1     1     1     1     0     0
+
+A^3
+
+ans =
+
+     1     2     1     3     0     1
+     3     1     4     4     0     1
+     1     2     1     4     0     2
+     3     0     4     2     0     0
+     5     2     6     5     0     1
+     2     1     2     3     0     1
+
+A^4
+
+ans =
+
+     5     1     6     5     0     1
+     5     4     6     9     0     3
+     6     1     8     6     0     1
+     2     4     2     7     0     3
+     7     6     8    14     0     5
+     4     2     5     6     0     2
+
+% 1 way in 1 stage, 1 way in 2 stages, 3 ways in 3 stages, and 5 ways in 5 stages.
+%iv)
+B = A + A^2 + A^3 + A^4
+
+B =
+
+     7     3     9    10     0     3
+    10     6    12    16     0     5
+     9     4    11    12     0     3
+     6     5     7    11     0     4
+    14    10    17    23     0     8
+     7     4     9    11     0     3
+
+%To get the most number of ways in which Person 3 can send a message to Person 4 in at most 4 stages, we must find the (3,4) entry of every matrix added (or B in this case). 
+%The entry is 12, so it can be concluded the most numbers of ways in which Person 3 can send a message to Person 4 in at most 4 stages is 12.
